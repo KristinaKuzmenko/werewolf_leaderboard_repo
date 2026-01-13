@@ -53,6 +53,7 @@ A2A_SCENARIO_PATH = "a2a-scenario.toml"
 ENV_PATH = ".env.example"
 
 DEFAULT_PORT = 9009
+PARTICIPANT_PORT = 8100
 DEFAULT_ENV_VARS = {"PYTHONUNBUFFERED": "1"}
 
 COMPOSE_TEMPLATE = """# Auto-generated from scenario.toml
@@ -96,7 +97,7 @@ PARTICIPANT_TEMPLATE = """  {name}:
     image: {image}
     platform: linux/amd64
     container_name: {name}
-    command: ["python", "-m", "src.purple_agents.baseline_agent.server", "--agent-id", "{name}", "--host", "0.0.0.0", "--port", "{port}"]
+    command: ["python", "-m", "src.purple_agents.baseline_agent.server", "--agent-id", "{name}", "--host", "0.0.0.0", "--port", "{participant_port}"]
     env_file:
       - .env
     environment:{env}
@@ -184,7 +185,7 @@ def generate_docker_compose(scenario: dict[str, Any]) -> str:
         PARTICIPANT_TEMPLATE.format(
             name=p["name"],
             image=p["image"],
-            port=DEFAULT_PORT,
+            participant_port=PARTICIPANT_PORT,
             env=format_env_vars(p.get("env", {}))
         )
         for p in participants
@@ -210,7 +211,7 @@ def generate_a2a_scenario(scenario: dict[str, Any]) -> str:
         lines = [
             f"[[participants]]",
             f"role = \"{p['name']}\"",
-            f"endpoint = \"http://{p['name']}:{DEFAULT_PORT}\"",
+            f"endpoint = \"http://{p['name']}:{PARTICIPANT_PORT}\"",
         ]
         if "agentbeats_id" in p:
             lines.append(f"agentbeats_id = \"{p['agentbeats_id']}\"")
