@@ -62,7 +62,7 @@ services:
     image: {green_image}
     platform: linux/amd64
     container_name: green-agent
-    command: ["python", "run_server.py", "--host", "0.0.0.0", "--port", "{green_port}"]
+    command: ["python", "-c", "from src.server import main; main()"]
     env_file:
       - .env
     environment:{green_env}
