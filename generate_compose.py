@@ -96,6 +96,7 @@ PARTICIPANT_TEMPLATE = """  {name}:
     image: {image}
     platform: linux/amd64
     container_name: {name}
+    command: ["python", "-m", "src.purple_agents.baseline_agent.server", "--agent-id", "{name}", "--host", "0.0.0.0", "--port", "{port}"]
     env_file:
       - .env
     environment:{env}
@@ -183,6 +184,7 @@ def generate_docker_compose(scenario: dict[str, Any]) -> str:
         PARTICIPANT_TEMPLATE.format(
             name=p["name"],
             image=p["image"],
+            port=DEFAULT_PORT,
             env=format_env_vars(p.get("env", {}))
         )
         for p in participants
