@@ -105,11 +105,11 @@ PARTICIPANT_TEMPLATE = """  {name}:
     networks:
       - agent-network
     healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:{participant_port}/.well-known/agent-card.json')"]
+      test: ["CMD-SHELL", "python -c 'import urllib.request; urllib.request.urlopen(\"http://localhost:{participant_port}/.well-known/agent-card.json\")' || exit 1"]
       interval: 5s
       timeout: 10s
       retries: 20
-      start_period: 30s
+      start_period: 15s
 """
 
 A2A_SCENARIO_TEMPLATE = """[green_agent]
