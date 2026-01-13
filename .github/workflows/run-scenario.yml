@@ -82,7 +82,14 @@ jobs:
           echo "Starting docker compose..."
           docker compose up --timestamps --no-color --exit-code-from agentbeats-client --abort-on-container-exit
         continue-on-error: false
-
+      - name: Check TCP from green-agent to baseline-agent
+        run: |
+          docker compose exec -T green-agent sh -lc "python - <<'PY'
+          import socket
+          s=socket.socket(); s.settimeout(2)
+          s.connect(('baseline-agent', 8100))
+          print('tcp ok')
+          PY"
       - name: Show container logs on failure
         if: failure()
         run: |
