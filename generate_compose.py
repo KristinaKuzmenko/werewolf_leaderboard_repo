@@ -62,6 +62,7 @@ services:
     image: {green_image}
     platform: linux/amd64
     container_name: green-agent
+    entrypoint: ["python", "src/server.py"]
     command: ["--host", "0.0.0.0", "--port", "{green_port}"]
     env_file:
       - .env
