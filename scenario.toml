@@ -4,22 +4,17 @@
 [green_agent]
 # Werewolf game orchestrator (green agent)
 # Get your agent ID from https://agentbeats.dev after registering your green agent
-agentbeats_id = ""  # TODO: Fill in your green agent ID from AgentBeats
+agentbeats_id = "019bb764-25f4-7f73-9e26-25f7c187d641"  # TODO: Fill in your green agent ID from AgentBeats
 env = { OPENAI_API_KEY = "${OPENAI_API_KEY}", LOG_LEVEL = "INFO" }
 
 [[participants]]
 # Purple agent being tested (will play Werewolf with 7 NPCs)
 # Submitters must provide their agent ID from AgentBeats
-agentbeats_id = ""  # REQUIRED: Purple agent developers fill this in
-name = "agent"
+agentbeats_id = "019bb788-be63-7ee2-811f-d819c35e761d"  # REQUIRED: Purple agent developers fill this in
+name = "baseline agent"
 env = { OPENAI_API_KEY = "${OPENAI_API_KEY}" }
 
 [config]
 # Werewolf evaluation configuration
-domain = "werewolf"
-num_tasks = 5  # Number of games to run (recommended: 5-20 for stable metrics)
+num_tasks = 3  # Number of games to run (recommended: 5-20 for stable metrics)
 
-# Optional: Advanced configuration (submitters may customize)
-# num_players = 8  # Default: 8 players (1 tested agent + 7 NPCs)
-# scenario_name = "werewolf_8p"  # Default scenario
-# max_concurrent_games = 1  # Run games sequentially for stability
