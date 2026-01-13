@@ -105,7 +105,7 @@ PARTICIPANT_TEMPLATE = """  {name}:
     networks:
       - agent-network
     healthcheck:
-      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8100/.well-known/agent-card.json')\" || exit 1"]
+      test: ["CMD-SHELL", "python -c \\"import urllib.request; urllib.request.urlopen('http://localhost:{participant_port}/.well-known/agent-card.json')\\" || exit 1"]
       interval: 5s
       timeout: 10s
       retries: 20
