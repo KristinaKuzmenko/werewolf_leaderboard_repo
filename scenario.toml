@@ -16,5 +16,5 @@ env = { OPENAI_API_KEY = "${OPENAI_API_KEY}" }
 
 [config]
 # Werewolf evaluation configuration
-num_tasks = 3  # Number of games to run (recommended: 5-20 for stable metrics)
+num_tasks = 5  # Number of games to run (recommended: 5-20 for stable metrics)
 
