@@ -71,6 +71,7 @@ services:
       - "{green_port}:{green_port}"
     networks:
       - agent-network
+    depends_on:{green_depends}
 
 {participant_services}
   agentbeats-client:
@@ -103,6 +104,12 @@ PARTICIPANT_TEMPLATE = """  {name}:
     environment:{env}
     networks:
       - agent-network
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:{participant_port}/.well-known/agent-card.json')"]
+      interval: 3s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
 """
 
 A2A_SCENARIO_TEMPLATE = """[green_agent]
@@ -201,6 +208,7 @@ def generate_docker_compose(scenario: dict[str, Any]) -> str:
         green_image=green["image"],
         green_port=DEFAULT_PORT,
         green_env=format_env_vars(green.get("env", {})),
+        green_depends=format_depends_on(participant_names, use_healthcheck=True),
         participant_services=participant_services,
         client_depends=format_depends_on(all_services, use_healthcheck=False)
     )
