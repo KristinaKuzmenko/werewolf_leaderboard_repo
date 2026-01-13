@@ -104,12 +104,6 @@ PARTICIPANT_TEMPLATE = """  {name}:
     env_file:
       - .env
     environment:{env}
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:{port}/.well-known/agent-card.json"]
-      interval: 5s
-      timeout: 3s
-      retries: 10
-      start_period: 30s
     networks:
       - agent-network
 """
@@ -177,7 +171,7 @@ def format_depends_on(services: list) -> str:
     lines = []
     for service in services:
         lines.append(f"      {service}:")
-        lines.append(f"        condition: service_healthy")
+        lines.append(f"        condition: service_started")
     return "\n" + "\n".join(lines)
 
 
