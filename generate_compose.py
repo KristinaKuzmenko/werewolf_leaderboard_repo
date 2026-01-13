@@ -100,7 +100,7 @@ PARTICIPANT_TEMPLATE = """  {name}:
     image: {image}
     platform: linux/amd64
     container_name: {name}
-    command: ["python", "src/purple_agents/baseline_agent/server.py", "--agent-id", "{name}", "--host", "0.0.0.0", "--port", "{port}"]
+    command: ["python", "-m", "src.purple_agents.baseline_agent.server", "--agent-id", "{name}", "--host", "0.0.0.0", "--port", "{port}"]
     env_file:
       - .env
     environment:{env}
