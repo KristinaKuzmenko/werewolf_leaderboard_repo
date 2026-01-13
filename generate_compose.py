@@ -69,12 +69,6 @@ services:
     environment:{green_env}
     ports:
       - "{green_port}:{green_port}"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:{green_port}/.well-known/agent-card.json"]
-      interval: 5s
-      timeout: 3s
-      retries: 10
-      start_period: 30s
     depends_on:{green_depends}
     networks:
       - agent-network
@@ -89,7 +83,8 @@ services:
     volumes:
       - ./a2a-scenario.toml:/app/scenario.toml
       - ./output:/app/output
-    command: ["scenario.toml", "output/results.json"]
+    entrypoint: ["/bin/sh", "-c"]
+    command: ["sleep 10 && uv run src/agentbeats/client_cli.py scenario.toml output/results.json"]
     depends_on:{client_depends}
     networks:
       - agent-network
@@ -170,11 +165,14 @@ def format_env_vars(env_dict: dict[str, Any]) -> str:
     return "\n" + "\n".join(lines)
 
 
-def format_depends_on(services: list) -> str:
+def format_depends_on(services: list, use_healthcheck: bool = False) -> str:
     lines = []
     for service in services:
         lines.append(f"      {service}:")
-        lines.append(f"        condition: service_started")
+        if use_healthcheck:
+            lines.append(f"        condition: service_healthy")
+        else:
+            lines.append(f"        condition: service_started")
     return "\n" + "\n".join(lines)
 
 
@@ -200,9 +198,9 @@ def generate_docker_compose(scenario: dict[str, Any]) -> str:
         green_image=green["image"],
         green_port=DEFAULT_PORT,
         green_env=format_env_vars(green.get("env", {})),
-        green_depends=format_depends_on(participant_names),
+        green_depends=format_depends_on(participant_names, use_healthcheck=False),
         participant_services=participant_services,
-        client_depends=format_depends_on(all_services)
+        client_depends=format_depends_on(all_services, use_healthcheck=False)
     )
 
 
