@@ -82,6 +82,10 @@ jobs:
           echo "Starting docker compose..."
           docker compose up --timestamps --no-color --exit-code-from agentbeats-client --abort-on-container-exit
         continue-on-error: false
+
+      - name: Show compose ps
+        run: docker compose ps
+      
       - name: Check TCP from green-agent to baseline-agent
         run: |
           docker compose exec -T green-agent sh -lc "python - <<'PY'
@@ -90,6 +94,14 @@ jobs:
           s.connect(('baseline-agent', 8100))
           print('tcp ok')
           PY"
+
+      - name: HTTP check agent-card from green-agent
+        run: |
+          docker compose exec -T green-agent sh -lc "python - <<'PY'
+          import urllib.request
+          print(urllib.request.urlopen('http://baseline-agent:8100/.well-known/agent-card.json', timeout=5).read().decode())
+          PY"
+          
       - name: Show container logs on failure
         if: failure()
         run: |
