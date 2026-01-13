@@ -96,18 +96,18 @@ jobs:
       - name: Check TCP from green-agent to baseline-agent
         run: |
           docker compose exec -T green-agent sh -lc "python - <<'PY'
-import socket
-s=socket.socket(); s.settimeout(3)
-s.connect(('baseline-agent', 8100))
-print('tcp ok')
-PY"
+          import socket
+          s=socket.socket(); s.settimeout(3)
+          s.connect(('baseline-agent', 8100))
+          print('tcp ok')
+          PY"
 
-      - name: HTTP check agent-card from green-agent
-        run: |
-          docker compose exec -T green-agent sh -lc "python - <<'PY'
-import urllib.request
-print(urllib.request.urlopen('http://baseline-agent:8100/.well-known/agent-card.json', timeout=5).read().decode())
-PY"
+                - name: HTTP check agent-card from green-agent
+                  run: |
+                    docker compose exec -T green-agent sh -lc "python - <<'PY'
+          import urllib.request
+          print(urllib.request.urlopen('http://baseline-agent:8100/.well-known/agent-card.json', timeout=5).read().decode())
+          PY"
 
       # --- Run assessment: wait for agentbeats-client to finish and propagate exit code ---
       - name: Run assessment (wait agentbeats-client)
