@@ -108,8 +108,10 @@ PARTICIPANT_TEMPLATE = """  {name}:
 A2A_SCENARIO_TEMPLATE = """[green_agent]
 endpoint = "http://green-agent:{green_port}"
 
-# AgentBeats single-eval mode: one participant + NPC bots
-participant = "http://{participant_name}:{participant_port}"
+# Single participant for AgentBeats mode (green agent fills remaining slots with NPCs)
+[[participants]]
+role = "{participant_name}"
+endpoint = "http://{participant_name}:{participant_port}"
 
 {config}"""
 
