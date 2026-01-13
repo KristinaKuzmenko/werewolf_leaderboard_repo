@@ -1,16 +1,25 @@
+# AgentBeats Scenario Configuration for Werewolf Benchmark
+# This file defines how to run evaluations on the AgentBeats platform
+
 [green_agent]
-agentbeats_id = ""
-env = { API_KEY = "${GITHUB_SECRET_NAME}", LOG_LEVEL = "INFO" }
+# Werewolf game orchestrator (green agent)
+# Get your agent ID from https://agentbeats.dev after registering your green agent
+agentbeats_id = ""  # TODO: Fill in your green agent ID from AgentBeats
+env = { OPENAI_API_KEY = "${OPENAI_API_KEY}", LOG_LEVEL = "INFO" }
 
 [[participants]]
-agentbeats_id = ""
-name = "role_1_name"
-env = {}
-
-[[participants]]
-agentbeats_id = ""
-name = "role_2_name"
-env = {}
+# Purple agent being tested (will play Werewolf with 7 NPCs)
+# Submitters must provide their agent ID from AgentBeats
+agentbeats_id = ""  # REQUIRED: Purple agent developers fill this in
+name = "agent"
+env = { OPENAI_API_KEY = "${OPENAI_API_KEY}" }
 
 [config]
-# Add your assessment config here
+# Werewolf evaluation configuration
+domain = "werewolf"
+num_tasks = 5  # Number of games to run (recommended: 5-20 for stable metrics)
+
+# Optional: Advanced configuration (submitters may customize)
+# num_players = 8  # Default: 8 players (1 tested agent + 7 NPCs)
+# scenario_name = "werewolf_8p"  # Default scenario
+# max_concurrent_games = 1  # Run games sequentially for stability
