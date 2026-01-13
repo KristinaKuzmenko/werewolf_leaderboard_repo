@@ -11,7 +11,7 @@ env = { OPENAI_API_KEY = "${OPENAI_API_KEY}", LOG_LEVEL = "INFO" }
 # Purple agent being tested (will play Werewolf with 7 NPCs)
 # Submitters must provide their agent ID from AgentBeats
 agentbeats_id = "019bb788-be63-7ee2-811f-d819c35e761d"  # REQUIRED: Purple agent developers fill this in
-name = "baseline agent"
+name = "baseline-agent"
 env = { OPENAI_API_KEY = "${OPENAI_API_KEY}" }
 
 [config]
