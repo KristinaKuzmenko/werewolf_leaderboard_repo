@@ -62,9 +62,12 @@ services:
     image: {green_image}
     platform: linux/amd64
     container_name: green-agent
+    command: ["--host", "0.0.0.0", "--port", "{green_port}"]
     env_file:
       - .env
     environment:{green_env}
+    ports:
+      - "{green_port}:{green_port}"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:{green_port}/.well-known/agent-card.json"]
       interval: 5s
