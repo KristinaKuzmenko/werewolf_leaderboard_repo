@@ -62,13 +62,12 @@ services:
     image: {green_image}
     platform: linux/amd64
     container_name: green-agent
-    command: ["python", "-c", "from src.server import main; main()"]
+    command: ["--host", "0.0.0.0", "--port", "{green_port}"]
     env_file:
       - .env
     environment:{green_env}
     ports:
       - "{green_port}:{green_port}"
-    depends_on:{green_depends}
     networks:
       - agent-network
 
@@ -97,7 +96,6 @@ PARTICIPANT_TEMPLATE = """  {name}:
     image: {image}
     platform: linux/amd64
     container_name: {name}
-    command: ["python", "-m", "src.purple_agents.baseline_agent.server", "--agent-id", "{name}", "--host", "0.0.0.0", "--port", "{port}"]
     env_file:
       - .env
     environment:{env}
@@ -185,7 +183,6 @@ def generate_docker_compose(scenario: dict[str, Any]) -> str:
         PARTICIPANT_TEMPLATE.format(
             name=p["name"],
             image=p["image"],
-            port=DEFAULT_PORT,
             env=format_env_vars(p.get("env", {}))
         )
         for p in participants
@@ -197,7 +194,6 @@ def generate_docker_compose(scenario: dict[str, Any]) -> str:
         green_image=green["image"],
         green_port=DEFAULT_PORT,
         green_env=format_env_vars(green.get("env", {})),
-        green_depends=format_depends_on(participant_names, use_healthcheck=False),
         participant_services=participant_services,
         client_depends=format_depends_on(all_services, use_healthcheck=False)
     )
