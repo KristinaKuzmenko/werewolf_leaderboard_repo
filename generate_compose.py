@@ -108,7 +108,9 @@ PARTICIPANT_TEMPLATE = """  {name}:
 A2A_SCENARIO_TEMPLATE = """[green_agent]
 endpoint = "http://green-agent:{green_port}"
 
-{participants}
+# AgentBeats single-eval mode: one participant + NPC bots
+participant = "http://{participant_name}:{participant_port}"
+
 {config}"""
 
 
@@ -205,24 +207,17 @@ def generate_docker_compose(scenario: dict[str, Any]) -> str:
 def generate_a2a_scenario(scenario: dict[str, Any]) -> str:
     green = scenario["green_agent"]
     participants = scenario.get("participants", [])
-
-    participant_lines = []
-    for p in participants:
-        lines = [
-            f"[[participants]]",
-            f"role = \"{p['name']}\"",
-            f"endpoint = \"http://{p['name']}:{PARTICIPANT_PORT}\"",
-        ]
-        if "agentbeats_id" in p:
-            lines.append(f"agentbeats_id = \"{p['agentbeats_id']}\"")
-        participant_lines.append("\n".join(lines) + "\n")
+    
+    # For AgentBeats mode, use single participant (first one)
+    participant_name = participants[0]["name"] if participants else "baseline-agent"
 
     config_section = scenario.get("config", {})
     config_lines = [tomli_w.dumps({"config": config_section})]
 
     return A2A_SCENARIO_TEMPLATE.format(
         green_port=DEFAULT_PORT,
-        participants="\n".join(participant_lines),
+        participant_name=participant_name,
+        participant_port=PARTICIPANT_PORT,
         config="\n".join(config_lines)
     )
 
