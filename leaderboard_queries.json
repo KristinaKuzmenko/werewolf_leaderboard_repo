@@ -1,0 +1,18 @@
+[
+  {
+    "name": "ELO Rating",
+    "query": "SELECT id, ROUND(1500 + SUM(elo_change), 0) AS \"ELO Rating\", ROUND(AVG(win) * 100, 1) AS \"Win Rate (%)\", COUNT(*) AS \"Games Played\" FROM (SELECT participants.agent AS id, game.won AS win, 32 * (CASE WHEN game.won THEN 1 ELSE 0 END - 1.0 / (1 + POW(10, (1500 - 1500) / 400.0))) AS elo_change FROM results CROSS JOIN UNNEST(individual_games) AS t(game)) GROUP BY id ORDER BY (1500 + SUM(elo_change)) DESC, id;"
+  },
+  {
+    "name": "Overall Performance",
+    "query": "SELECT id, ROUND(AVG(performance_metrics.win_rate) * 100, 1) AS \"Win Rate (%)\", ROUND(AVG(performance_metrics.sr) * 100, 1) AS \"Survival Rate (%)\", ROUND(AVG(performance_metrics.irs) * 100, 1) AS \"IRS (%)\", ROUND(AVG(performance_metrics.vrs) * 100, 1) AS \"VRS (%)\", ROUND(AVG(performance_metrics.mss) * 100, 1) AS \"MSS (%)\", SUM(num_games) AS \"Total Games\" FROM (SELECT participants.agent AS id, performance_metrics, num_games FROM results) GROUP BY id ORDER BY AVG(performance_metrics.win_rate) DESC, AVG(performance_metrics.sr) DESC, id;"
+  },
+  {
+    "name": "Werewolf Skills",
+    "query": "SELECT id, ROUND(AVG(performance_metrics.persuasion_score) * 100, 1) AS \"Persuasion\", ROUND(AVG(performance_metrics.deception_score) * 100, 1) AS \"Deception\", ROUND(AVG(advanced_metrics.manipulation_success_d1) * 100, 1) AS \"D1 Manipulation (%)\", ROUND(AVG(advanced_metrics.manipulation_success_d2) * 100, 1) AS \"D2 Manipulation (%)\", ROUND(AVG(advanced_metrics.auto_sabotage) * 100, 1) AS \"Auto-Sabotage (%)\", ROUND(AVG(advanced_metrics.day1_wolf_eliminated) * 100, 1) AS \"D1 Wolf Elim (%)\" FROM (SELECT participants.agent AS id, performance_metrics, advanced_metrics FROM results) GROUP BY id ORDER BY AVG(performance_metrics.deception_score) DESC, AVG(performance_metrics.persuasion_score) DESC, id;"
+  },
+  {
+    "name": "Game Statistics",
+    "query": "SELECT id, SUM(games_won) AS \"Games Won\", SUM(games_survived) AS \"Games Survived\", SUM(total_games) AS \"Total Games\", ROUND(AVG(performance_metrics.win_rate) * 100, 1) AS \"Win Rate (%)\", ROUND(AVG(CAST(games_completed AS DOUBLE) / CAST(num_games AS DOUBLE)) * 100, 1) AS \"Completion Rate (%)\" FROM (SELECT participants.agent AS id, performance_metrics.games_won AS games_won, performance_metrics.games_survived AS games_survived, performance_metrics.total_games AS total_games, performance_metrics, games_completed, num_games FROM results) GROUP BY id ORDER BY SUM(games_won) DESC, SUM(games_survived) DESC, id;"
+  }
+]

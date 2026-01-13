@@ -30,6 +30,9 @@ jobs:
       - name: Show generated docker-compose.yml
         run: cat docker-compose.yml
 
+      - name: Show generated a2a-scenario.toml
+        run: cat a2a-scenario.toml
+
       - name: Pull images
         run: |
           if ! docker compose pull; then
