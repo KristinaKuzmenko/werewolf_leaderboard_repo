@@ -1,0 +1,17 @@
+{
+  "image_digests": {
+    "green-agent": "ghcr.io/kristinakuzmenko/werewolf-green-agent@sha256:15d321a70b617e3aae0080e9754311c63818ce6d2f0862aff165533a86fc666e",
+    "baseline-agent": "ghcr.io/kristinakuzmenko/werewolf-purple-agent@sha256:634a31a79ea316cc24af1d682e61a620ebf68d158c5db1f94ed1ffab317678d7",
+    "agentbeats-client": "ghcr.io/agentbeats/agentbeats-client@sha256:13dfe3ef4e583a80e7ce2fe3becd0ce3b879841368a7f4fa40b6ebbabeeb014e"
+  },
+  "timestamp": "2026-01-14T00:50:01Z",
+  "github_actions": {
+    "run_url": "https://github.com/KristinaKuzmenko/werewolf_leaderboard_repo/actions/runs/20978090520",
+    "run_logs_url": "https://api.github.com/repos/KristinaKuzmenko/werewolf_leaderboard_repo/actions/runs/20978090520/logs",
+    "ref": "refs/heads/main",
+    "sha": "d4e1261ab525a4a620a9717bfad9da3577fb98d4",
+    "repository_url": "https://github.com/KristinaKuzmenko/werewolf_leaderboard_repo",
+    "workflow_ref": "KristinaKuzmenko/werewolf_leaderboard_repo/.github/workflows/run-scenario.yml@refs/heads/main",
+    "workflow_sha": "d4e1261ab525a4a620a9717bfad9da3577fb98d4"
+  }
+}
