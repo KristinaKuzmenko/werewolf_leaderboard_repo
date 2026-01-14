@@ -80,6 +80,8 @@ services:
     container_name: agentbeats-client
     env_file:
       - .env
+    environment:
+      - A2A_CLIENT_TIMEOUT=300  # 5 minutes timeout for long-running LLM evaluations
     volumes:
       - ./a2a-scenario.toml:/app/scenario.toml
       - ./output:/app/output
