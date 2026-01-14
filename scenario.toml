@@ -3,7 +3,7 @@
 
 [green_agent]
 # Werewolf game orchestrator (green agent)
-agentbeats_id = "019bb764-25f4-7f73-9e26-25f7c187d641"  
+agentbeats_id = "019bbdf5-bb91-7562-917d-5822565bde3c"  
 env = { OPENAI_API_KEY = "${OPENAI_API_KEY}", LOG_LEVEL = "INFO" }
 
 [[participants]]
