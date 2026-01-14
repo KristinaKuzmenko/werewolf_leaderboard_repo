@@ -102,9 +102,9 @@ jobs:
           print('tcp ok')
           PY"
 
-                - name: HTTP check agent-card from green-agent
-                  run: |
-                    docker compose exec -T green-agent sh -lc "python - <<'PY'
+      - name: HTTP check agent-card from green-agent
+        run: |
+          docker compose exec -T green-agent sh -lc "python - <<'PY'
           import urllib.request
           print(urllib.request.urlopen('http://baseline-agent:8100/.well-known/agent-card.json', timeout=5).read().decode())
           PY"
