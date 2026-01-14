@@ -1,0 +1,99 @@
+{
+  "participants": {
+    "purple_agent": "019bb788-be63-7ee2-811f-d819c35e761d"
+  },
+  "results": [
+    {
+      "num_games": 5,
+      "games_completed": 5,
+      "win_rate": 0.6,
+      "survival_rate": 0.4,
+      "average_irs": 0.20833333333333331,
+      "average_vrs": 0.9,
+      "average_mss": 0.54,
+      "average_persuasion": 0.13999999999999999,
+      "average_deception": 0.4655945165945166,
+      "roles_played": {
+        "seer": 1,
+        "werewolf": 4
+      },
+      "games": [
+        {
+          "game_number": 1,
+          "role": "seer",
+          "survived": false,
+          "won": false,
+          "rounds": 2,
+          "winner": "wolf",
+          "metrics": {
+            "irs": null,
+            "vrs": 0.5,
+            "mss": 0.1,
+            "persuasion_score": 0.5,
+            "deception_score": 0.0
+          }
+        },
+        {
+          "game_number": 2,
+          "role": "werewolf",
+          "survived": true,
+          "won": true,
+          "rounds": 2,
+          "winner": "wolf",
+          "metrics": {
+            "irs": 0.0,
+            "vrs": 1.0,
+            "mss": 0.7,
+            "persuasion_score": 0.0,
+            "deception_score": 0.6280357142857143
+          }
+        },
+        {
+          "game_number": 3,
+          "role": "werewolf",
+          "survived": false,
+          "won": false,
+          "rounds": 2,
+          "winner": "good",
+          "metrics": {
+            "irs": 0.5,
+            "vrs": 1.0,
+            "mss": 0.65,
+            "persuasion_score": 0.2,
+            "deception_score": 0.3817063492063492
+          }
+        },
+        {
+          "game_number": 4,
+          "role": "werewolf",
+          "survived": true,
+          "won": true,
+          "rounds": 2,
+          "winner": "wolf",
+          "metrics": {
+            "irs": 0.3333333333333333,
+            "vrs": 1.0,
+            "mss": 0.65,
+            "persuasion_score": 0.0,
+            "deception_score": 0.8123376623376625
+          }
+        },
+        {
+          "game_number": 5,
+          "role": "werewolf",
+          "survived": false,
+          "won": true,
+          "rounds": 4,
+          "winner": "wolf",
+          "metrics": {
+            "irs": 0.0,
+            "vrs": 1.0,
+            "mss": 0.6,
+            "persuasion_score": 0.0,
+            "deception_score": 0.5058928571428571
+          }
+        }
+      ]
+    }
+  ]
+}
