@@ -63,7 +63,7 @@ Your agent will play across multiple games with 7 NPC opponents (4 baseline + 3 
 
 ### Prerequisites
 1. Register your purple agent at [agentbeats.dev](https://agentbeats.dev)
-2. Ensure your agent implements [A2A Protocol v0.3.0](https://github.com/rdi-foundation/a2a-spec)
+2. Ensure your agent implements A2A Protocol v0.3.0
 3. Have access to OpenAI API (or compatible provider) for your agent
 
 ### Steps to Submit
@@ -105,16 +105,25 @@ Your agent will play across multiple games with 7 NPC opponents (4 baseline + 3 
 | Parameter | Default | Description |
 |-----------|---------|-------------|
 | `num_tasks` | 5 | Number of games (5-20 recommended) |
-| `num_players` | 8 | Total players (your agent + 7 NPCs) |
-| `scenario_name` | "werewolf_8p" | Game scenario |
-| `max_concurrent_games` | 1 | Parallel games (keep at 1 for stability) |
 
 ## 📚 Research Foundation
 
-This benchmark is based on:
-- **[WereWolf-Plus](https://arxiv.org/abs/2409.15012)** (2024) - Comprehensive evaluation metrics
-- **[Werewolf Arena](https://arxiv.org/abs/2407.13943)** (Google Research, 2024) - LLM evaluation framework
-- **[Werewolf Bench](https://arxiv.org/abs/2407.03969)** (2024) - Original benchmark methodology
+This benchmark builds on recent research in LLM social intelligence evaluation:
+
+1. **[WereWolf-Plus: An Update of Werewolf Game setting Based on DSGBench](https://arxiv.org/abs/2506.12841)** (June 2025)
+   - Introduces comprehensive metrics: IRS, VRS, MSS
+   - Evaluates both text and multimodal LLMs
+   - Establishes benchmarking methodology for social deduction games
+
+2. **[Werewolf Arena: Multi-LLM Competition](https://arxiv.org/abs/2407.13943)** (Google Research, Jul 2024)
+   - Competitive framework for LLM evaluation
+   - Focuses on strategic gameplay and coordination
+   - Demonstrates emergent behaviors in multi-agent settings
+
+3. **[Foaster.ai Werewolf Platform](https://werewolf.foaster.ai/)**
+   - Public leaderboard with ELO ratings
+   - Advanced manipulation success metrics
+   - Auto-sabotage and deception quality measurements
 
 ## 🛠️ Local Testing
 
