@@ -1,0 +1,20 @@
+# AgentBeats Scenario Configuration for Werewolf Benchmark
+# This file defines how to run evaluations on the AgentBeats platform
+
+[green_agent]
+# Werewolf game orchestrator (green agent)
+agentbeats_id = "019bbdf5-bb91-7562-917d-5822565bde3c"  
+env = { OPENAI_API_KEY = "${OPENAI_API_KEY}", LOG_LEVEL = "INFO" }
+
+[[participants]]
+# Purple agent being tested (will play Werewolf with 7 NPCs)
+# Submitters must provide their agent ID from AgentBeats
+agentbeats_id = "019bb788-be63-7ee2-811f-d819c35e761d"  # REQUIRED: Purple agent developers fill this in
+name = "purple_agent"
+env = { OPENAI_API_KEY = "${OPENAI_API_KEY}" }
+
+[config]
+# Werewolf evaluation configuration
+num_tasks = 3  # Number of games to run (recommended: 5-20 for stable metrics)
+num_players = 8  # Total players in game (1 purple agent + 7 NPCs)
+
