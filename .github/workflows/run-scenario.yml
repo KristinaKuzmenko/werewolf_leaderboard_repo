@@ -26,22 +26,8 @@ jobs:
       - name: Install dependencies
         run: pip install tomli tomli-w pyyaml requests
 
-      - name: Install jq
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y jq
-
       - name: Generate docker-compose.yml
         run: python generate_compose.py --scenario scenario.toml
-
-      - name: Show generated docker-compose.yml
-        run: cat docker-compose.yml
-
-      - name: Assert public-url is present in compose
-        run: grep -n -- "--public-url" docker-compose.yml
-
-      - name: Show generated a2a-scenario.toml
-        run: cat a2a-scenario.toml
 
       - name: Pull images
         run: |
@@ -83,57 +69,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GHCR_TOKEN }}
 
-      # --- Start services detached so next steps can run ---
-      - name: Start services
-        run: |
-          echo "Starting docker compose..."
-          docker compose up -d --no-color
-
-      - name: Show compose ps
-        run: docker compose ps
-
-      # --- Debug checks while containers are alive ---
-      - name: Check TCP from green-agent to baseline-agent
-        run: |
-          docker compose exec -T green-agent sh -lc "python - <<'PY'
-          import socket
-          s=socket.socket(); s.settimeout(3)
-          s.connect(('baseline-agent', 8100))
-          print('tcp ok')
-          PY"
-
-      - name: HTTP check agent-card from green-agent
-        run: |
-          docker compose exec -T green-agent sh -lc "python - <<'PY'
-          import urllib.request
-          print(urllib.request.urlopen('http://baseline-agent:8100/.well-known/agent-card.json', timeout=5).read().decode())
-          PY"
-
-      # --- Run assessment: wait for agentbeats-client to finish and propagate exit code ---
-      - name: Run assessment (wait agentbeats-client)
+      - name: Run assessment
         timeout-minutes: 30
-        run: |
-          CID=$(docker compose ps -q agentbeats-client)
-          echo "agentbeats-client container id: $CID"
-          docker compose logs -f --no-color agentbeats-client &
-          EXIT_CODE=$(docker wait "$CID")
-          echo "agentbeats-client exit code: $EXIT_CODE"
-          test "$EXIT_CODE" -eq 0
-
-      - name: Show container logs on failure
-        if: failure()
-        run: |
-          echo "=== Container Status ==="
-          docker compose ps -a || true
-          echo ""
-          echo "=== Green Agent Logs ==="
-          docker compose logs --no-color green-agent || true
-          echo ""
-          echo "=== Baseline Agent Logs ==="
-          docker compose logs --no-color baseline-agent || true
-          echo ""
-          echo "=== AgentBeats Client Logs ==="
-          docker compose logs --no-color agentbeats-client || true
+        run: docker compose up --timestamps --no-color --exit-code-from agentbeats-client --abort-on-container-exit
 
       - name: Record provenance
         run: python record_provenance.py --compose docker-compose.yml --output output/provenance.json

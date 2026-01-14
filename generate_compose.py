@@ -119,6 +119,7 @@ endpoint = "http://green-agent:{green_port}"
 [[participants]]
 role = "{participant_name}"
 endpoint = "http://{participant_name}:{participant_port}"
+agentbeats_id = "{participant_agentbeats_id}"
 
 {config}"""
 
@@ -219,7 +220,9 @@ def generate_a2a_scenario(scenario: dict[str, Any]) -> str:
     participants = scenario.get("participants", [])
     
     # For AgentBeats mode, use single participant (first one)
-    participant_name = participants[0]["name"] if participants else "baseline-agent"
+    participant = participants[0] if participants else {}
+    participant_name = participant.get("name", "baseline-agent")
+    participant_agentbeats_id = participant.get("agentbeats_id", "")
 
     config_section = scenario.get("config", {})
     config_lines = [tomli_w.dumps({"config": config_section})]
@@ -228,6 +231,7 @@ def generate_a2a_scenario(scenario: dict[str, Any]) -> str:
         green_port=DEFAULT_PORT,
         participant_name=participant_name,
         participant_port=PARTICIPANT_PORT,
+        participant_agentbeats_id=participant_agentbeats_id,
         config="\n".join(config_lines)
     )
 
